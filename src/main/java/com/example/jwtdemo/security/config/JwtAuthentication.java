@@ -32,9 +32,9 @@ public class JwtAuthentication implements Authentication {
 
     private final boolean isAdmin;
 
-    private final String token;
-
     private final boolean isAuthenticated;
+
+    private final String token;
 
     JwtAuthentication(String token) {
         this.token = token;

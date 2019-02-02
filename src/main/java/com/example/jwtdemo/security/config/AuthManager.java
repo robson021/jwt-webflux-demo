@@ -22,7 +22,7 @@ public class AuthManager implements ReactiveAuthenticationManager {
         } catch (Exception e) {
             log.warn(e.getMessage());
             if (log.isDebugEnabled()) {
-                log.debug(null, e);
+                log.debug("", e);
             }
             return Mono.empty();
         }

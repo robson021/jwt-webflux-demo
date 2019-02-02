@@ -22,8 +22,8 @@ public class WebSecurityConfig {
                 .securityContextRepository(securityContextRepository)
                 .authorizeExchange()
                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
-                .pathMatchers("/login*").permitAll()
-                .pathMatchers("/admin*").hasRole("ADMIN")
+                .pathMatchers("/login**").permitAll()
+                .pathMatchers("/admin**").hasAuthority("ROLE_ADMIN")  // TODO: this does not protect admin endpoint
                 .anyExchange().authenticated()
                 .and().build();
     }
