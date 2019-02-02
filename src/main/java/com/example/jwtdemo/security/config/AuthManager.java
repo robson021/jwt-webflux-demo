@@ -21,9 +21,6 @@ public class AuthManager implements ReactiveAuthenticationManager {
             return doAuthenticate(authentication);
         } catch (Exception e) {
             log.warn(e.getMessage());
-            if (log.isDebugEnabled()) {
-                log.debug("", e);
-            }
             return Mono.empty();
         }
     }
@@ -36,6 +33,6 @@ public class AuthManager implements ReactiveAuthenticationManager {
         String username = decodedJWT.getClaim(JwtService.USERNAME).asString();
         boolean isAdmin = decodedJWT.getClaim(JwtService.IS_ADMIN).asBoolean();
 
-        return Mono.just(new JwtAuthentication(id, username, isAdmin, jwt, true));
+        return Mono.just(new JwtAuthentication(id, username, isAdmin, true, jwt));
     }
 }

@@ -27,7 +27,7 @@ public class LoginHandler {
                         return ServerResponse.status(HttpStatus.UNAUTHORIZED).build();
 
                     String jwt = jwtService.sign(user.getId(), login, user.isAdmin());
-                    return ServerResponse.ok().syncBody(jwt);
+                    return ServerResponse.ok().syncBody("Bearer " + jwt);
                 });
     }
 }

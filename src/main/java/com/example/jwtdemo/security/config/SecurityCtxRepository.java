@@ -27,11 +27,18 @@ public class SecurityCtxRepository implements ServerSecurityContextRepository {
     @Override
     public Mono<SecurityContext> load(ServerWebExchange exchange) {
         String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+        return authHeader == null ? Mono.empty() : createSecurityCtx(exchange, authHeader);
+    }
+
+    private Mono<SecurityContext> createSecurityCtx(ServerWebExchange exchange, String authHeader) {
         try {
             String token = authHeader.substring(BEARER_WORD_LENGTH);
             return authManager.authenticate(new JwtAuthentication(token)).map(SecurityContextImpl::new);
         } catch (Exception e) {
-            if (log.isDebugEnabled()) log.debug(e.getClass().toString());
+            if (log.isDebugEnabled()) {
+                String path = exchange.getRequest().getPath().toString();
+                log.debug("Error on path: '{}'. Exception: {}", path, e.getClass().toString());
+            }
             log.warn("Failed to authenticate user. Authorization header: {}", authHeader);
             return Mono.empty();
         }
