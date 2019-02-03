@@ -3,6 +3,7 @@ package com.example.jwtdemo.security.config;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import lombok.val;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,8 +21,8 @@ public class JwtAuthentication implements Authentication {
     private static final Collection<GrantedAuthority> ADMIN_AUTHORITIES;
 
     static {
-        SimpleGrantedAuthority roleUser = new SimpleGrantedAuthority("ROLE_USER");
-        SimpleGrantedAuthority roleAdmin = new SimpleGrantedAuthority("ROLE_ADMIN");
+        val roleUser = new SimpleGrantedAuthority("ROLE_USER");
+        val roleAdmin = new SimpleGrantedAuthority("ROLE_ADMIN");
         USER_AUTHORITIES = List.of(roleUser);
         ADMIN_AUTHORITIES = List.of(roleUser, roleAdmin);
     }

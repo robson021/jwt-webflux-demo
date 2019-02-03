@@ -31,9 +31,12 @@ public class JwtService {
     }
 
     public String sign(long userId, String username, boolean isAdmin) {
+        Date now = new Date();
+        Date oneHourLater = new Date(now.getTime() + 3600_000);
         return JWT.create()
                 .withIssuer(issuer)
-                .withIssuedAt(new Date())
+                .withIssuedAt(now)
+                .withExpiresAt(oneHourLater)
                 .withClaim(ID, userId)
                 .withClaim(USERNAME, username)
                 .withClaim(IS_ADMIN, isAdmin)
