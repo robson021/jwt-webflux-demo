@@ -1,6 +1,5 @@
 package com.example.jwtdemo.security.config;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
@@ -8,18 +7,15 @@ import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
 @EnableWebFluxSecurity
-@RequiredArgsConstructor
 public class WebSecurityConfig {
 
-    private final AuthManager authenticationManager;
-
-    private final SecurityCtxRepository securityContextRepository;
-
     @Bean
-    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
+    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http,
+                                                         AuthManager authManager,
+                                                         SecurityCtxRepository securityCtxRepository) {
         return http.csrf().disable()
-                .authenticationManager(authenticationManager)
-                .securityContextRepository(securityContextRepository)
+                .authenticationManager(authManager)
+                .securityContextRepository(securityCtxRepository)
                 .authorizeExchange()
                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
                 .pathMatchers(HttpMethod.GET, "/login**", "/**/*.html", "/**/*.css", "/**/*.js", "/**/*.ico").permitAll()

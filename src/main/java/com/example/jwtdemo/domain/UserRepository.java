@@ -1,5 +1,6 @@
 package com.example.jwtdemo.domain;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
 
@@ -10,16 +11,14 @@ public class UserRepository {
 
     private final Map<String, User> userMap;
 
-    public UserRepository() {
+    public UserRepository(PasswordEncoder encoder) {
         String userLogin = "user";
-        String userPassword = "password";
-
         String adminLogin = "admin";
-        String adminPassword = "password";
+        String encodedPassword = encoder.encode("password");
 
         userMap = Map.of(
-                userLogin, new User(1, userLogin, userPassword, false),
-                adminLogin, new User(2, adminLogin, adminPassword, true)
+                userLogin, new User(1, userLogin, encodedPassword, false),
+                adminLogin, new User(2, adminLogin, encodedPassword, true)
         );
     }
 

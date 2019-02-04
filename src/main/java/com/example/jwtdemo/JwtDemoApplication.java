@@ -9,6 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.reactive.ReactiveSecurityAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -26,16 +28,21 @@ public class JwtDemoApplication {
     }
 
     @Bean
-    public Algorithm algorithm(@Value("${com.example.security.secret}") String secret) {
-        return Algorithm.HMAC512(secret);
-    }
-
-    @Bean
     public RouterFunction<ServerResponse> peopleRoutes(LoginHandler loginHandler, TestEndpointHandler testEndpointHandler) {
         return RouterFunctions //
                 .route(GET("/login"), loginHandler::logUserIn)
                 .andRoute(GET("/user-endpoint"), testEndpointHandler::userEndpoint)
                 .andRoute(GET("/admin/admin-endpoint"), testEndpointHandler::adminEndpoint);
+    }
+
+    @Bean
+    public Algorithm algorithm(@Value("${com.example.security.secret}") String secret) {
+        return Algorithm.HMAC512(secret);
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(11);
     }
 
 }
