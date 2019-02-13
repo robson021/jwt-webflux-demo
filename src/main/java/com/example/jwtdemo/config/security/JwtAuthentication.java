@@ -1,4 +1,4 @@
-package com.example.jwtdemo.security.config;
+package com.example.jwtdemo.config.security;
 
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;

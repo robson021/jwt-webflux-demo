@@ -9,18 +9,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.reactive.ReactiveSecurityAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import org.testcontainers.containers.PostgreSQLContainer;
 
 import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
 
-@SpringBootApplication(exclude = {
-        SecurityAutoConfiguration.class,
-        ReactiveSecurityAutoConfiguration.class,
-})
+@EnableR2dbcRepositories
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class, ReactiveSecurityAutoConfiguration.class,})
 public class JwtDemoApplication {
 
     public static void main(String[] args) {
@@ -45,4 +45,8 @@ public class JwtDemoApplication {
         return new BCryptPasswordEncoder(11);
     }
 
+    @Bean
+    public PostgreSQLContainer postgreSQLContainer() {
+        return new PostgreSQLContainer();
+    }
 }

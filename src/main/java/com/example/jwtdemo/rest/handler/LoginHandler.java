@@ -1,7 +1,7 @@
 package com.example.jwtdemo.rest.handler;
 
+import com.example.jwtdemo.config.security.JwtService;
 import com.example.jwtdemo.domain.UserRepository;
-import com.example.jwtdemo.security.config.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;

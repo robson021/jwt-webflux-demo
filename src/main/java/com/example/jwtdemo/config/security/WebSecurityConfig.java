@@ -1,4 +1,4 @@
-package com.example.jwtdemo.security.config;
+package com.example.jwtdemo.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
