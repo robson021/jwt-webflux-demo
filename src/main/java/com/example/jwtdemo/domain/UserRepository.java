@@ -1,29 +1,41 @@
 package com.example.jwtdemo.domain;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.r2dbc.function.DatabaseClient;
 import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.Map;
-
 @Repository
+@Slf4j
+@RequiredArgsConstructor
 public class UserRepository {
 
-    private final Map<String, User> userMap;
+    private final DatabaseClient database;
 
-    public UserRepository(PasswordEncoder encoder) {
-        String userLogin = "user";
-        String adminLogin = "admin";
-        String encodedPassword = encoder.encode("password");
-
-        userMap = Map.of(
-                userLogin, new User(1, userLogin, encodedPassword, false),
-                adminLogin, new User(2, adminLogin, encodedPassword, true)
-        );
+    public Mono<Void> insertUser(User user) {
+        return database.insert()
+                .into(User.class)
+                .table("users")
+                .using(user)
+                .then();
     }
 
-    public Mono<User> findUser(String username) {
-        User user = userMap.get(username);
-        return Mono.justOrEmpty(user);
+    public Mono<User> findUser(String login) {
+        return database.execute()
+                .sql("SELECT * FROM users AS u WHERE u.login = $1")
+                .bind("$1", login)
+                .as(User.class)
+                .fetch()
+                .one();
+    }
+
+    public Flux<User> getAllUsers() {
+        return database.select()
+                .from("users")
+                .as(User.class)
+                .fetch()
+                .all();
     }
 }

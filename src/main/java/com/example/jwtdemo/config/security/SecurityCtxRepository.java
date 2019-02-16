@@ -37,9 +37,9 @@ public class SecurityCtxRepository implements ServerSecurityContextRepository {
         } catch (Exception e) {
             if (log.isDebugEnabled()) {
                 String path = exchange.getRequest().getPath().toString();
-                log.debug("Error on path: '{}'. Exception type: {}", path, e.getClass().toString());
+                log.debug("Error on path: '{}'. Exception type: {}. Auth header: ", path, e.getClass().toString(), authHeader);
             }
-            log.warn("Failed to authenticate user. Authorization header: {}", authHeader);
+            log.warn("Failed to authenticate user. Message: {}", e.getMessage());
             return Mono.empty();
         }
     }
