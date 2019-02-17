@@ -24,7 +24,7 @@ public class UserRepository {
 
     public Mono<User> findUser(String login) {
         return database.execute()
-                .sql("SELECT * FROM users AS u WHERE u.login = $1")
+                .sql("SELECT * FROM users WHERE login = $1")
                 .bind("$1", login)
                 .as(User.class)
                 .fetch()
