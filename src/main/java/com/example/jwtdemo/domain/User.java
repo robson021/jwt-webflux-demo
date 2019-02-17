@@ -10,8 +10,7 @@ import lombok.ToString;
 @EqualsAndHashCode(exclude = "password")
 public class User {
 
-    @NonNull
-    private final long id;
+    private final Long id;
 
     @NonNull
     private final String login;
