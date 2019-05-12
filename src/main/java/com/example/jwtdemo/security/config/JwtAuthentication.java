@@ -47,9 +47,7 @@ public class JwtAuthentication implements Authentication {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (isAdmin)
-            return ADMIN_AUTHORITIES;
-        return USER_AUTHORITIES;
+        return isAdmin ? ADMIN_AUTHORITIES : USER_AUTHORITIES;
     }
 
     @Override

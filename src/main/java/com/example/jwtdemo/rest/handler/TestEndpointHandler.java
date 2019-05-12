@@ -15,7 +15,7 @@ public class TestEndpointHandler {
     public Mono<ServerResponse> userEndpoint(ServerRequest request) {
         return request.principal()
                 .flatMap(principal -> {
-                    log.info("User endpoint hit by: {}", principal);
+                    log.debug("User endpoint hit by: {}", principal);
                     return getPrincipalResponse(principal);
                 });
     }
@@ -23,7 +23,7 @@ public class TestEndpointHandler {
     public Mono<ServerResponse> adminEndpoint(ServerRequest request) {
         return request.principal()
                 .flatMap(principal -> {
-                    log.info("Admin endpoint hit by: {}", principal);
+                    log.debug("Admin endpoint hit by: {}", principal);
                     return getPrincipalResponse(principal);
                 });
     }
